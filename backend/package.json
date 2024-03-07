@@ -1,0 +1,11 @@
+{
+  "name": "e-store-backend",
+  "version": "1.0.0",
+  "description": "e commerce store backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Syed Talha Ali",
+  "license": "ISC"
+}
