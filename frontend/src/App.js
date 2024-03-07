@@ -1,7 +1,14 @@
 import React from "react";
+import LoginForm from "./components/LoginForm";
+import SignupForm from "./components/SignupForm";
 
 const App = () => {
-  return <div className="text-rose-300 text-center">App</div>;
+  return (
+    <>
+      <LoginForm />
+      {/* <SignupForm /> */}
+    </>
+  );
 };
 
 export default App;
