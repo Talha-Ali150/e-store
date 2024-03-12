@@ -4,10 +4,15 @@ const connectToDb = require("./db/db.config");
 const cors = require("cors");
 const User = require("./models/user.models");
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
-connectToDb();
+
+connectToDb()
+  .then(() => {
+    app.listen(port || 8000, () => console.log(`server is running at ${port}`));
+  })
+  .catch((err) => console.log("MongoDB Connection Failed"));
 
 app.get("/", (req, res) => {
   try {
@@ -63,7 +68,7 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const correctPassword = user.comparePassword(data.password);
+    const correctPassword = await user.comparePassword(data.password);
 
     if (!correctPassword) {
       return res.status(401).send({ message: "wrong credentials" });
@@ -72,10 +77,10 @@ app.post("/login", async (req, res) => {
     const token = await user.generateToken();
     res.status(201).send({ message: " logged in successfully ", token });
   } catch (e) {
-    res.status(501).send({ message: e });
+    res.status(501).send({ message: e.message });
   }
 });
 
-app.listen(port, () => {
-  console.log("server is running at ", port);
-});
+// app.listen(port, () => {
+//   console.log("server is running at ", port);
+// });

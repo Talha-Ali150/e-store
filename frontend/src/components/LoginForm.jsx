@@ -1,15 +1,51 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { CiMail } from "react-icons/ci";
 import { IoLockClosedOutline } from "react-icons/io5";
+import Loader from "./Loader";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formErrors, setFormErrors] = useState({});
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const submitLoginForm = (e) => {
-    e.preventDefault();
-    console.log(email + ", " + password);
+  const validateForm = () => {
+    const errors = {};
+    if (!email) {
+      errors.email = "Please enter email";
+    }
+    if (!password) {
+      errors.password = "Please enter password";
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
+
+  const submitLoginForm = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        email,
+        password,
+      });
+      console.log(response.data);
+      setError("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+      setError(error.response.data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div class=" bg-gradient-to-r from-sky-500 to-purple-500 flex items-center justify-center h-screen w-screen">
       <form className="bg-white w-1/3 flex flex-col items-center p-8 rounded-lg">
@@ -22,6 +58,7 @@ const LoginForm = () => {
             className="w-5/6 ml-2 border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:border-indigo-500"
           />
         </span>
+        <span className="text-red-500">{formErrors.email}</span>
         <span className="flex flex-row items-center mb-4 w-full">
           <IoLockClosedOutline />
           <input
@@ -32,13 +69,20 @@ const LoginForm = () => {
             className="w-5/6 ml-2 border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:border-indigo-500"
           />
         </span>
-        <button
-          onClick={submitLoginForm}
-          type="submit"
-          className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
-        >
-          Login
-        </button>
+        <span className="text-red-500">{formErrors.password}</span>
+        <span className="text-red-500">{error && error.message}</span>
+        {loading ? (
+          <Loader />
+        ) : (
+          <button
+            onClick={submitLoginForm}
+            type="submit"
+            className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
+          >
+            Login
+          </button>
+        )}
+
         <p>OR</p>
         <button
           onClick={(e) => {
