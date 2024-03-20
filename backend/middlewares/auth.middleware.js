@@ -3,7 +3,7 @@ const apiError = require("../utils/apiError.js");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.models");
 
-const verifyJWT = asyncHandler(async (req, res, next) => {
+const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
     const token =
       req.cookies?.accessToken ||
