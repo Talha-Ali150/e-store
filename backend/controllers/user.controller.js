@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const generateAccessAndRefreshTokens = async (userID) => {
   try {
-    const user = User.findById(userID);
+    const user = await User.findById(userID);
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -152,7 +152,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: true,
+      secure: false,
     };
 
     const { accessToken, newRefreshToken } =
@@ -170,7 +170,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         )
       );
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid refresh token");
+    throw new apiError(401, error?.message || "Invalid refresh token");
   }
 });
 
