@@ -16,6 +16,8 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 const userRouter = require("./routes/user.routes");
+const productRouter = require("./routes/product.routes");
 
 app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
 module.exports = app;
