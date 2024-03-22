@@ -45,6 +45,76 @@ const addProduct = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, newAddedProduct, "Product added successfully"));
 });
 
+const deleteProduct = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const deletedProduct = await Product.findByIdAndDelete(id);
+
+  if (!deletedProduct) {
+    throw new apiError(404, `No product with the id of ${id}`);
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, null, "The product has been deleted"));
+});
+
+const getProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({});
+  if (!products) {
+    return new apiError(404, "no products found");
+  }
+  res
+    .status(200)
+    .json(new apiResponse(200, products, "All products fetched successfully"));
+});
+
+const updateProduct = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  let productToUpdate = await Product.findById(id);
+
+  if (!productToUpdate) {
+    throw new apiError(404, `No product with the id of ${id}`);
+  }
+
+  const { title, description, originalPrice, discountedPrice, size } = req.body;
+
+  const fieldsToUpdate = {
+    title,
+    description,
+    originalPrice,
+    discountedPrice,
+    size,
+  };
+
+  Object.keys(fieldsToUpdate).forEach((field) => {
+    if (fieldsToUpdate[field]) {
+      productToUpdate[field] = fieldsToUpdate[field];
+    }
+  });
+
+  const productImagePath = req.files?.productImage[0]?.path;
+  if (productImagePath) {
+    const productImage = await uploadOnCloudinary(productImagePath);
+    if (!productImage) {
+      throw new apiError(400, "Product image is required");
+    }
+    productToUpdate.productImage = productImage.url;
+  }
+
+  productToUpdate = await productToUpdate.save();
+
+  res
+    .status(200)
+    .json(
+      new apiResponse(200, productToUpdate, "Product updated successfully")
+    );
+});
+
 module.exports = {
   addProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
 };
