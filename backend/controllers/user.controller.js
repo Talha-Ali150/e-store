@@ -22,7 +22,7 @@ const generateAccessAndRefreshTokens = async (userID) => {
   }
 };
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, isAdmin } = req.body;
 
   if ([username, email, password].some((field) => field.trim() === "")) {
     throw new apiError(400, "All fields are required.");
@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     username,
     email,
     password,
+    isAdmin: isAdmin || false,
     profileImage: profileImage.url,
   });
 

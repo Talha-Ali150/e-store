@@ -24,6 +24,11 @@ const verifyJWT = asyncHandler(async (req, _, next) => {
     }
 
     req.user = user;
+
+    if (!user.isAdmin) {
+      throw new apiError(403, "Access denied. You are not an admin.");
+    }
+
     next();
   } catch (error) {
     throw new apiError(401, error?.message || "Invalid access token");
