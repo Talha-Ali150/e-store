@@ -146,7 +146,7 @@ const LoginForm = () => {
     } catch (error) {
       console.error("this si error ", error.response.data.error.message);
 
-      setError(error.response.data.message);
+      setError(error.response.data.error.message);
     } finally {
       setLoading(false);
     }
@@ -176,6 +176,7 @@ const LoginForm = () => {
           />
         </span>
         <span className="text-red-500">{formErrors.password}</span>
+        {/* {error ? <span className="text-red-500">{error}</span> : ""} */}
         <span className="text-red-500">{error}</span>
         {loading ? (
           <Loader />

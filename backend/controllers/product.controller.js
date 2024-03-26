@@ -15,19 +15,34 @@ const addProduct = asyncHandler(async (req, res) => {
       (field) => field.trim() === ""
     )
   ) {
-    throw new apiError(400, "All fields are required");
+    // throw new apiError(400, "All fields are required");
+    res.status(400).json({
+      error: {
+        message: "All fields are required",
+      },
+    });
   }
 
   const productImagePath = req.files?.productImage[0]?.path;
 
   if (!productImagePath) {
-    throw new apiError(400, "product image path not provided");
+    // throw new apiError(400, "product image path not provided");
+    res.status(400).json({
+      error: {
+        message: "Product image path not provided",
+      },
+    });
   }
 
   const productImage = await uploadOnCloudinary(productImagePath);
 
   if (!productImage) {
-    throw new apiError(400, "product image is required");
+    // throw new apiError(400, "product image is required");
+    res.status(400).json({
+      error: {
+        message: "Product image is required",
+      },
+    });
   }
 
   const newProduct = await Product.create({
@@ -37,7 +52,12 @@ const addProduct = asyncHandler(async (req, res) => {
 
   const newAddedProduct = await Product.findById(newProduct._id);
   if (!newAddedProduct) {
-    throw new apiError(500, "Something went wrong while adding product");
+    // throw new apiError(500, "Something went wrong while adding product");
+    res.status(500).json({
+      error: {
+        message: "Something went wrong while adding product",
+      },
+    });
   }
 
   return res
@@ -51,7 +71,12 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const deletedProduct = await Product.findByIdAndDelete(id);
 
   if (!deletedProduct) {
-    throw new apiError(404, `No product with the id of ${id}`);
+    // throw new apiError(404, `No product with the id of ${id}`);
+    res.status(404).json({
+      error: {
+        message: "No product found",
+      },
+    });
   }
 
   return res
@@ -62,7 +87,12 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
   if (!products) {
-    return new apiError(404, "no products found");
+    // return new apiError(404, "no products found");
+    res.status(404).json({
+      error: {
+        message: "No products found",
+      },
+    });
   }
   res
     .status(200)
@@ -75,7 +105,12 @@ const updateProduct = asyncHandler(async (req, res) => {
   let productToUpdate = await Product.findById(id);
 
   if (!productToUpdate) {
-    throw new apiError(404, `No product with the id of ${id}`);
+    // throw new apiError(404, `No product with the id of ${id}`);
+    res.status(400).json({
+      error: {
+        message: "No product found",
+      },
+    });
   }
 
   const { title, description, originalPrice, discountedPrice, size } = req.body;
@@ -98,7 +133,12 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (productImagePath) {
     const productImage = await uploadOnCloudinary(productImagePath);
     if (!productImage) {
-      throw new apiError(400, "Product image is required");
+      // throw new apiError(400, "Product image is required");
+      res.status(400).json({
+        error: {
+          message: "Product image is required",
+        },
+      });
     }
     productToUpdate.productImage = productImage.url;
   }
