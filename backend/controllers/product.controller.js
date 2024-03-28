@@ -16,29 +16,49 @@ const addProduct = asyncHandler(async (req, res) => {
     )
   ) {
     // throw new apiError(400, "All fields are required");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "All fields are required",
       },
     });
   }
 
-  const productImagePath = req.files?.productImage[0]?.path;
+  const productMainImagePath = req.files?.productMainImage[0]?.path;
+  const productSecondaryImagePaths = req.files?.productSecondaryImages?.map(
+    (file) => file.path
+  );
 
-  if (!productImagePath) {
+  if (!productMainImagePath) {
     // throw new apiError(400, "product image path not provided");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "Product image path not provided",
       },
     });
   }
+  if (!productSecondaryImagePaths) {
+    // throw new apiError(400, "product secondary images path not provided");
+    return res.status(400).json({
+      error: {
+        message: "Product secondary images path not provided",
+      },
+    });
+  }
 
-  const productImage = await uploadOnCloudinary(productImagePath);
+  const productMainImage = await uploadOnCloudinary(productMainImagePath);
+  // const productSecondaryImages = await productSecondaryImagePaths(
 
-  if (!productImage) {
+  const productSecondaryImages = [];
+  for (const imagePath of productSecondaryImagePaths) {
+    const uploadedImage = await uploadOnCloudinary(imagePath);
+    if (uploadedImage) {
+      productSecondaryImages.push(uploadedImage.secure_url);
+    }
+  }
+
+  if (!productMainImage) {
     // throw new apiError(400, "product image is required");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "Product image is required",
       },
@@ -47,13 +67,14 @@ const addProduct = asyncHandler(async (req, res) => {
 
   const newProduct = await Product.create({
     ...req.body,
-    productImage: productImage.url,
+    productMainImage: productMainImage.url,
+    productSecondaryImages: productSecondaryImages,
   });
 
   const newAddedProduct = await Product.findById(newProduct._id);
   if (!newAddedProduct) {
     // throw new apiError(500, "Something went wrong while adding product");
-    res.status(500).json({
+    return res.status(500).json({
       error: {
         message: "Something went wrong while adding product",
       },
@@ -72,7 +93,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
   if (!deletedProduct) {
     // throw new apiError(404, `No product with the id of ${id}`);
-    res.status(404).json({
+    return res.status(404).json({
       error: {
         message: "No product found",
       },
@@ -88,13 +109,13 @@ const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
   if (!products) {
     // return new apiError(404, "no products found");
-    res.status(404).json({
+    return res.status(404).json({
       error: {
         message: "No products found",
       },
     });
   }
-  res
+  return res
     .status(200)
     .json(new apiResponse(200, products, "All products fetched successfully"));
 });
@@ -106,7 +127,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   if (!productToUpdate) {
     // throw new apiError(404, `No product with the id of ${id}`);
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "No product found",
       },
@@ -134,7 +155,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     const productImage = await uploadOnCloudinary(productImagePath);
     if (!productImage) {
       // throw new apiError(400, "Product image is required");
-      res.status(400).json({
+      return res.status(400).json({
         error: {
           message: "Product image is required",
         },
@@ -145,7 +166,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   productToUpdate = await productToUpdate.save();
 
-  res
+  return res
     .status(200)
     .json(
       new apiResponse(200, productToUpdate, "Product updated successfully")

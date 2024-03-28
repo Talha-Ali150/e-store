@@ -11,6 +11,13 @@ const LoginForm = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  };
+
   const validateForm = () => {
     const errors = {};
     if (!email) {
@@ -25,6 +32,7 @@ const LoginForm = () => {
 
   const submitLoginForm = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) {
       return;
     }
@@ -35,7 +43,8 @@ const LoginForm = () => {
         {
           email,
           password,
-        }
+        },
+        config
       );
       console.log("this is reponse:", response.data);
       setError("");
@@ -96,6 +105,17 @@ const LoginForm = () => {
           className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
         >
           Sign Up
+        </button>
+        <button
+          onClick={async (e) => {
+            e.preventDefault();
+            await axios.post("http://localhost:5000/api/users/logout", null, {
+              withCredentials: true,
+            });
+          }}
+          className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
+        >
+          Log Out
         </button>
       </form>
     </div>

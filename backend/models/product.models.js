@@ -10,9 +10,12 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    productImage: {
+    productMainImage: {
       type: String,
       required: true,
+    },
+    productSecondaryImages: {
+      type: [String],
     },
     originalPrice: {
       type: Number,

@@ -19,7 +19,7 @@ const generateAccessAndRefreshTokens = async (userID) => {
     //   500,
     //   "Something went wrong while generating access and refresh token"
     // );
-    res.status(500).json({
+    return res.status(500).json({
       error: {
         message:
           "Something went wrong while generating access and refresh token",
@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if ([username, email, password].some((field) => field.trim() === "")) {
     // throw new apiError(400, "All fields are required.");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "All fields are required",
       },
@@ -41,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const profileImagePath = req.files?.profileImage[0]?.path;
   if (!profileImagePath) {
     // throw new apiError(400, "profile image path not provided");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "Profile image path not provided",
       },
@@ -50,7 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const profileImage = await uploadOnCloudinary(profileImagePath);
   if (!profileImage) {
     // throw new apiError(400, "profile image is required");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "Profile image is required",
       },
@@ -68,7 +68,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const createdUser = await User.findById(user._id).select("-password");
   if (!createdUser) {
     // throw new apiError(500, "Something went wrong while creating user");
-    res.status(400).json({
+    return res.status(400).json({
       error: {
         message: "Something went wrong while creating user",
       },
@@ -174,7 +174,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
   if (!incomingRefreshToken) {
     // throw new apiError(401, "Unauthorized request");
-    res.status(401).json({
+    return res.status(401).json({
       error: {
         message: "Unauthorized request",
       },
@@ -191,7 +191,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     if (!user) {
       // throw new apiError(401, "Invalid refresh token");
-      res.status(401).json({
+      return res.status(401).json({
         error: {
           message: "Invalid refresh token",
         },
@@ -200,7 +200,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     if (user.refreshToken !== incomingRefreshToken) {
       // throw new apiError(401, "refresh token is expired or used");
-      res.status(401).json({
+      return res.status(401).json({
         error: {
           message: "Refresh token is expired or used",
         },
@@ -228,7 +228,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       );
   } catch (error) {
     // throw new apiError(401, error?.message || "Invalid refresh token");
-    res.status(401).json({
+    return res.status(401).json({
       error: {
         message:
           error.message ||

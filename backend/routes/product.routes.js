@@ -17,8 +17,12 @@ router.route("/get-products").get(getProducts);
 router.route("/add-product").post(
   upload.fields([
     {
-      name: "productImage",
+      name: "productMainImage",
       maxCount: 1,
+    },
+    {
+      name: "productSecondaryImages",
+      maxCount: 3,
     },
   ]),
   verifyJWT,
