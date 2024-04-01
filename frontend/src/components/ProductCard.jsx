@@ -1,6 +1,25 @@
+import axios from "axios";
 import React from "react";
+import { MdDeleteOutline } from "react-icons/md";
 
 const ProductCard = ({ product }) => {
+  const submitDelete = async (e) => {
+    e.preventDefault();
+
+    try {
+      const isDeleted = await axios.delete(
+        `http://localhost:5000/api/products/delete-product/${product._id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (isDeleted) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error?.response?.data?.error?.message);
+    }
+  };
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
       {/* Main product image */}
@@ -45,6 +64,13 @@ const ProductCard = ({ product }) => {
             className="w-16 h-16 object-cover rounded-full border-2 border-gray-200 mr-2"
           />
         ))}
+      </div>
+      <div className=" text-4xl">
+        <MdDeleteOutline
+          onClick={(e) => {
+            submitDelete(e);
+          }}
+        />
       </div>
     </div>
   );
