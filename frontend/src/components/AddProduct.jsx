@@ -89,8 +89,10 @@ const AddProductForm = () => {
       setDiscountedPrice("");
       setSize("");
     } catch (error) {
-      console.log("Error adding product:", error);
-      setError("Error adding product. Please try again later.");
+      // console.log("Error adding product:", error);
+      // setError("Error adding product. Please try again later.");
+      console.log(error?.response?.data?.error?.message);
+      setError(error?.response?.data?.error?.message);
     } finally {
       setLoading(false);
     }

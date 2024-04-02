@@ -3,8 +3,17 @@ import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 const ProductCard = ({ product }) => {
+  // const isDelete = false;
   const submitDelete = async (e) => {
     e.preventDefault();
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+
+    if (!confirmDelete) {
+      return null;
+    }
 
     try {
       const isDeleted = await axios.delete(
