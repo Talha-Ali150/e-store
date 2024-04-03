@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {
   createBrowserRouter,
@@ -14,27 +13,6 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import AddProductForm from "./components/AddProduct";
 import Home from "./components/Home";
-
-// createBrowserRouter(
-//   createRoutesFromElements(
-//     <Route path="/" element={<Root />}>
-//       <Route path="contact" element={<Contact />} />
-//       <Route
-//         path="dashboard"
-//         element={<Dashboard />}
-//         loader={({ request }) =>
-//           fetch("/api/dashboard.json", {
-//             signal: request.signal,
-//           })
-//         }
-//       />
-//       <Route element={<AuthLayout />}>
-//         <Route path="login" element={<Login />} loader={redirectIfUser} />
-//         <Route path="logout" action={logoutUser} />
-//       </Route>
-//     </Route>
-//   )
-// );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter(
@@ -53,7 +31,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
