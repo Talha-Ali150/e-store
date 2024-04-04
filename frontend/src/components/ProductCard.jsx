@@ -87,13 +87,28 @@
 
 // export default ProductCard;
 
+import React from "react";
 
-import React from 'react'
-
-const ProductCard = () => {
+const ProductCard = ({item}) => {
   return (
-    <div>ProductCard</div>
-  )
-}
+    <div className="productCardMainContainer">
+      <div className="productCardSection1  bg-sky-500 w-[350px] h-[175px] flex flex-col items-center">
+        <p className="text-white font-bold text-xl my-3">{item.title}</p>
+        <img
+          className="h-[225px] w-[225px]"
+          alt="clothes"
+          src={item.productMainImage}
+        />
+        <button className="px-5 py-3 -mt-32 bg-sky-500 rounded-full w-[200px] text-white text-xl font-bold shadow-lg">
+          SHOP NOW
+        </button>
+      </div>
+      <div className="productCardSection2 w-[350px] h-[150px]  bg-gray-300 flex flex-col items-center justify-end shadow-lg  shadow-gray-400">
+        <p className="text-sm font-bold drop-shadow-lg">{item.discountedPrice}</p>
+        <p className="text-sm font-bold drop-shadow-lg line-through">{item.originalPrice}</p>
+      </div>
+    </div>
+  );
+};
 
-export default ProductCard
+export default ProductCard;

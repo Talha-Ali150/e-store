@@ -23,12 +23,9 @@ const Home = () => {
   };
   return (
     <div>
-      <div class="bg-pink-100">...</div>
-      <div class="bg-blue-500">...</div>
-      <div class="bg-yellow-300">...</div>
       <div>
         {products.map((item) => {
-          return <ProductCard product={item} />;
+          return <ProductCard item={item} />;
         })}
       </div>
     </div>
@@ -36,3 +33,22 @@ const Home = () => {
 };
 
 export default Home;
+
+// import React from 'react'
+// import ProductCard from './ProductCard'
+
+// const Home = () => {
+//   const item = {
+//     title:"JACKET",
+//     img: require('../assets/images/jacket.png'),
+//     original_price:'$ 433434',
+//     discounted_price:"$ 200",    
+//   }
+//   return (
+//     <div>
+//       <ProductCard item={item} />
+//     </div>
+//   )
+// }
+
+// export default Home
