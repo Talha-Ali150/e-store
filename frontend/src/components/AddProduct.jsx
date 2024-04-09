@@ -11,6 +11,7 @@ const AddProductForm = () => {
   const [originalPrice, setOriginalPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
   const [size, setSize] = useState("");
+  const [category, setCategory] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,9 @@ const AddProductForm = () => {
   const handleSecondaryImages = (e) => {
     const files = Array.from(e.target.files);
     setProductSecondaryImages(files);
+  };
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
   };
 
   const validateForm = () => {
@@ -44,6 +48,9 @@ const AddProductForm = () => {
     }
     if (!size) {
       errors.size = "Please enter size";
+    }
+    if (!category) {
+      errors.category = "Please choose category";
     }
     if (productSecondaryImages.length > 3) {
       errors.numberOfPics = "Upto 3 pictures are allowed for each product";
@@ -70,6 +77,7 @@ const AddProductForm = () => {
       formData.append("originalPrice", originalPrice);
       formData.append("discountedPrice", discountedPrice);
       formData.append("size", size);
+      formData.append("category", category);
 
       const response = await axios.post(
         "http://localhost:5000/api/products/add-product",
@@ -88,6 +96,7 @@ const AddProductForm = () => {
       setOriginalPrice("");
       setDiscountedPrice("");
       setSize("");
+      setCategory("");
     } catch (error) {
       // console.log("Error adding product:", error);
       // setError("Error adding product. Please try again later.");
@@ -177,6 +186,24 @@ const AddProductForm = () => {
           </label>
         </div>
         <span className="text-red-500">{formErrors.size}</span>
+
+        <span className="flex flex-row items-center mb-4 w-full">
+          <label htmlFor="category" className="mr-2">
+            Category:
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={handleCategoryChange}
+            className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:border-indigo-500"
+          >
+            <option value="">Select Category</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Kids">Kids</option>
+          </select>
+        </span>
+        <span className="text-red-500">{formErrors.category}</span>
 
         <label>Product Main Image</label>
         <span className="flex flex-row items-center mb-4 w-full">

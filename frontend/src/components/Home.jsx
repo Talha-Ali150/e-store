@@ -28,6 +28,7 @@ const Home = () => {
           return <ProductCard item={item} />;
         })}
       </div>
+      
     </div>
   );
 };

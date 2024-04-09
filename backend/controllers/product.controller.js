@@ -8,10 +8,10 @@ const asyncHandler = require("../utils/asyncHandler");
 const uploadOnCloudinary = require("../utils/cloudinary");
 
 const addProduct = asyncHandler(async (req, res) => {
-  const { title, description, originalPrice, discountedPrice, size } = req.body;
+  const { title, description, originalPrice, discountedPrice, size, category } = req.body;
 
   if (
-    [title, description, originalPrice, discountedPrice, size].some(
+    [title, description, originalPrice, discountedPrice, size, category].some(
       (field) => field.trim() === ""
     )
   ) {

@@ -2,9 +2,14 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customPink: "#EF3054",
+        customMint: "#09BC8A",
+      },
+    },
     fontFamily: {
-      'sans': ['Poppins', 'sans-serif'],
+      sans: ["Poppins", "sans-serif"],
     },
   },
   plugins: [],
