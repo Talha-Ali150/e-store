@@ -13,6 +13,7 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import AddProductForm from "./components/AddProduct";
 import Home from "./components/Home";
+import Details from "./components/Details";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/" element={<Home />}></Route>
       <Route path="/login" element={<LoginForm />}></Route>
+      <Route path="/detail-page/:id" element={<Details />}></Route>
       <Route path="/register" element={<SignupForm />}></Route>
       <Route path="/add-product" element={<AddProductForm />}></Route>
     </Route>
