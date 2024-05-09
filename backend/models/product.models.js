@@ -18,9 +18,9 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    productSecondaryImages: {
-      type: [String],
-    },
+    // productSecondaryImages: {
+    //   type: [String],
+    // },
     originalPrice: {
       type: Number,
       required: true,
@@ -29,10 +29,10 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
-    size: {
-      type: String,
-      required: true,
-    },
+    // size: {
+    //   type: String,
+    //   required: true,
+    // },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",

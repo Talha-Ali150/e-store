@@ -20,10 +20,10 @@ router.route("/add-product").post(
       name: "productMainImage",
       maxCount: 1,
     },
-    {
-      name: "productSecondaryImages",
-      maxCount: 3,
-    },
+    // {
+    //   name: "productSecondaryImages",
+    //   maxCount: 3,
+    // },
   ]),
   verifyJWT,
   addProduct

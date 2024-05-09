@@ -7,10 +7,10 @@ const AddProductForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [productMainImage, setProductMainImage] = useState("");
-  const [productSecondaryImages, setProductSecondaryImages] = useState([]);
+  // const [productSecondaryImages, setProductSecondaryImages] = useState([]);
   const [originalPrice, setOriginalPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
-  const [size, setSize] = useState("");
+  // const [size, setSize] = useState("");
   const [category, setCategory] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
@@ -21,10 +21,10 @@ const AddProductForm = () => {
     setProductMainImage(file);
   };
 
-  const handleSecondaryImages = (e) => {
-    const files = Array.from(e.target.files);
-    setProductSecondaryImages(files);
-  };
+  // const handleSecondaryImages = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   setProductSecondaryImages(files);
+  // };
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
@@ -46,15 +46,15 @@ const AddProductForm = () => {
     if (!discountedPrice) {
       errors.discountedPrice = "Please enter discounted price";
     }
-    if (!size) {
-      errors.size = "Please enter size";
-    }
+    // if (!size) {
+    //   errors.size = "Please enter size";
+    // }
     if (!category) {
       errors.category = "Please choose category";
     }
-    if (productSecondaryImages.length > 3) {
-      errors.numberOfPics = "Upto 3 pictures are allowed for each product";
-    }
+    // if (productSecondaryImages.length > 3) {
+    //   errors.numberOfPics = "Upto 3 pictures are allowed for each product";
+    // }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -71,12 +71,12 @@ const AddProductForm = () => {
       formData.append("title", title);
       formData.append("description", description);
       formData.append("productMainImage", productMainImage);
-      productSecondaryImages.forEach((image) =>
-        formData.append("productSecondaryImages", image)
-      );
+      // productSecondaryImages.forEach((image) =>
+      //   formData.append("productSecondaryImages", image)
+      // );
       formData.append("originalPrice", originalPrice);
       formData.append("discountedPrice", discountedPrice);
-      formData.append("size", size);
+      // formData.append("size", size);
       formData.append("category", category);
 
       const response = await axios.post(
@@ -92,10 +92,10 @@ const AddProductForm = () => {
       setTitle("");
       setDescription("");
       setProductMainImage("");
-      setProductSecondaryImages([]);
+      // setProductSecondaryImages([]);
       setOriginalPrice("");
       setDiscountedPrice("");
-      setSize("");
+      // setSize("");
       setCategory("");
     } catch (error) {
       // console.log("Error adding product:", error);
@@ -152,7 +152,7 @@ const AddProductForm = () => {
         </span>
         <span className="text-red-500">{formErrors.discountedPrice}</span>
 
-        <div className="flex flex-row items-center mb-4 w-full">
+        {/* <div className="flex flex-row items-center mb-4 w-full">
           <label className="mr-2">Size:</label>
           <label className="mr-2">
             <input
@@ -185,7 +185,7 @@ const AddProductForm = () => {
             L
           </label>
         </div>
-        <span className="text-red-500">{formErrors.size}</span>
+        <span className="text-red-500">{formErrors.size}</span> */}
 
         <span className="flex flex-row items-center mb-4 w-full">
           <label htmlFor="category" className="mr-2">
@@ -218,7 +218,7 @@ const AddProductForm = () => {
 
         <span className="text-red-500">{formErrors.productMainImage}</span>
 
-        <label>Product Other Images</label>
+        {/* <label>Product Other Images</label>
         <span className="flex flex-row items-center mb-4 w-full">
           <CiFileOn />
           <input
@@ -228,12 +228,12 @@ const AddProductForm = () => {
             onChange={handleSecondaryImages}
             className="w-5/6 ml-2 border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:border-indigo-500"
           />
-        </span>
+        </span> */}
 
-        <span className="text-red-500">
+        {/* <span className="text-red-500">
           {formErrors.productSecondaryImages}
-        </span>
-        <span className="text-red-500">{formErrors.numberOfPics}</span>
+        </span> */}
+        {/* <span className="text-red-500">{formErrors.numberOfPics}</span> */}
 
         <span className="text-red-500">{error}</span>
         {loading ? (

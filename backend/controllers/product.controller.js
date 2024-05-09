@@ -2,18 +2,30 @@
 //first i will try to add product
 
 const Product = require("../models/product.models");
-const apiError = require("../utils/apiError");
+// const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 const uploadOnCloudinary = require("../utils/cloudinary");
 
 const addProduct = asyncHandler(async (req, res) => {
-  const { title, description, originalPrice, discountedPrice, size, category } = req.body;
+  const {
+    title,
+    description,
+    originalPrice,
+    discountedPrice,
+    // size,
+    category,
+  } = req.body;
 
   if (
-    [title, description, originalPrice, discountedPrice, size, category].some(
-      (field) => field.trim() === ""
-    )
+    [
+      title,
+      description,
+      originalPrice,
+      discountedPrice,
+      // size,
+      category,
+    ].some((field) => field.trim() === "")
   ) {
     // throw new apiError(400, "All fields are required");
     return res.status(400).json({
@@ -24,9 +36,9 @@ const addProduct = asyncHandler(async (req, res) => {
   }
 
   const productMainImagePath = req.files?.productMainImage[0]?.path;
-  const productSecondaryImagePaths = req.files?.productSecondaryImages?.map(
-    (file) => file.path
-  );
+  // const productSecondaryImagePaths = req.files?.productSecondaryImages?.map(
+  //   (file) => file.path
+  // );
 
   if (!productMainImagePath) {
     // throw new apiError(400, "product image path not provided");
@@ -36,25 +48,25 @@ const addProduct = asyncHandler(async (req, res) => {
       },
     });
   }
-  if (!productSecondaryImagePaths) {
-    // throw new apiError(400, "product secondary images path not provided");
-    return res.status(400).json({
-      error: {
-        message: "Product secondary images path not provided",
-      },
-    });
-  }
+  // if (!productSecondaryImagePaths) {
+  //   // throw new apiError(400, "product secondary images path not provided");
+  //   return res.status(400).json({
+  //     error: {
+  //       message: "Product secondary images path not provided",
+  //     },
+  //   });
+  // }
 
   const productMainImage = await uploadOnCloudinary(productMainImagePath);
   // const productSecondaryImages = await productSecondaryImagePaths(
 
-  const productSecondaryImages = [];
-  for (const imagePath of productSecondaryImagePaths) {
-    const uploadedImage = await uploadOnCloudinary(imagePath);
-    if (uploadedImage) {
-      productSecondaryImages.push(uploadedImage.secure_url);
-    }
-  }
+  // const productSecondaryImages = [];
+  // for (const imagePath of productSecondaryImagePaths) {
+  //   const uploadedImage = await uploadOnCloudinary(imagePath);
+  //   if (uploadedImage) {
+  //     productSecondaryImages.push(uploadedImage.secure_url);
+  //   }
+  // }
 
   if (!productMainImage) {
     // throw new apiError(400, "product image is required");
@@ -68,7 +80,7 @@ const addProduct = asyncHandler(async (req, res) => {
   const newProduct = await Product.create({
     ...req.body,
     productMainImage: productMainImage.url,
-    productSecondaryImages: productSecondaryImages,
+    // productSecondaryImages: productSecondaryImages,
   });
 
   const newAddedProduct = await Product.findById(newProduct._id);
@@ -134,14 +146,20 @@ const updateProduct = asyncHandler(async (req, res) => {
     });
   }
 
-  const { title, description, originalPrice, discountedPrice, size } = req.body;
+  const {
+    title,
+    description,
+    originalPrice,
+    discountedPrice,
+    //  size
+  } = req.body;
 
   const fieldsToUpdate = {
     title,
     description,
     originalPrice,
     discountedPrice,
-    size,
+    // size,
   };
 
   Object.keys(fieldsToUpdate).forEach((field) => {
