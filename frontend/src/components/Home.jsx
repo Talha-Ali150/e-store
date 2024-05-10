@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
-import AddProductForm from "./AddProduct";
+// import LoginForm from "./LoginForm";
+// import SignupForm from "./SignupForm";
+// import AddProductForm from "./AddProduct";
 import axios from "axios";
 import ProductCard from "./ProductCard";
+import Cart from "./Cart";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -23,12 +24,40 @@ const Home = () => {
   };
   return (
     <div>
+      <Cart products={products}/>
       <div>
-        {products.map((item) => {
-          return <ProductCard item={item} />;
-        })}
+        <p className="text-center text-3xl font-bold my-5" id="men">MEN</p>
+        <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
+          {products.map((item) => {
+            if (item.category === "Men") {
+              return <ProductCard item={item} />;
+            }
+            return null;
+          })}
+        </div>
       </div>
-      
+      <div>
+        <p className="text-center text-3xl font-bold my-5" id="women">WOMEN</p>
+        <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
+          {products.map((item) => {
+            if (item.category === "Women") {
+              return <ProductCard item={item} />;
+            }
+            return null;
+          })}
+        </div>
+      </div>
+      <div>
+        <p className="text-center text-3xl font-bold my-5" id="kids">KIDS</p>
+        <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
+          {products.map((item) => {
+            if (item.category === "Kids") {
+              return <ProductCard item={item} />;
+            }
+            return null;
+          })}
+        </div>
+      </div>
     </div>
   );
 };
@@ -43,7 +72,7 @@ export default Home;
 //     title:"JACKET",
 //     img: require('../assets/images/jacket.png'),
 //     original_price:'$ 433434',
-//     discounted_price:"$ 200",    
+//     discounted_price:"$ 200",
 //   }
 //   return (
 //     <div>

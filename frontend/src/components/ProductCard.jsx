@@ -5,14 +5,14 @@ const ProductCard = ({ item }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="productCardMainContainer w-[350px] bg-red-700"
+      className="productCardMainContainer w-[350px] bg-red-700 mx-3 my-5"
       onClick={() => navigate(`/detail-page/${item?._id}`, { state: { item } })}
     >
       <div
         className={` productCardSection1    w-[350px] h-[175px] flex flex-col items-center ${
-          item?.category == "Women"
+          item?.category === "Women"
             ? "bg-customPink"
-            : item.category == "Kids"
+            : item.category === "Kids"
             ? "bg-customMint"
             : "bg-sky-500"
         }`}
@@ -25,9 +25,9 @@ const ProductCard = ({ item }) => {
         />
         <button
           className={`px-5 py-3 -mt-32 rounded-full w-[200px] text-white text-xl font-bold shadow-lg  ${
-            item?.category == "Women"
+            item?.category === "Women"
               ? "bg-customPink"
-              : item.category == "Kids"
+              : item.category === "Kids"
               ? "bg-customMint"
               : "bg-sky-500"
           }`}
