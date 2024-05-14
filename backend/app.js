@@ -19,6 +19,10 @@ app.use(cookieParser());
 const userRouter = require("./routes/user.routes");
 const productRouter = require("./routes/product.routes");
 
+app.get("/", (req, res) => {
+  return res.send("Received a GET HTTP method");
+});
+
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 module.exports = app;
