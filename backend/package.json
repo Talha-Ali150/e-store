@@ -4,7 +4,7 @@
   "description": "e commerce store backend",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Syed Talha Ali",
   "license": "ISC",
