@@ -21,8 +21,8 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-const userRouter = require("./routes/user.routes");
-const productRouter = require("./routes/product.routes");
+const userRouter = require("./routes/user.routes.js");
+const productRouter = require("./routes/product.routes.js");
 
 app.get("/", (req, res) => {
   return res.send("Received a GET HTTP method");

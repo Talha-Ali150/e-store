@@ -2,9 +2,9 @@
   "name": "e-store-backend",
   "version": "1.0.0",
   "description": "e commerce store backend",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Syed Talha Ali",
   "license": "ISC",
