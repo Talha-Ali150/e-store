@@ -51,7 +51,7 @@ const SignupForm = () => {
 
     try {
       const response = await axios.post(
-        "https://e-store-pearl.vercel.app/api/users/register",
+        "http://localhost:5000/api/users/register",
         { username, email, password, profileImage },
         {
           headers: {

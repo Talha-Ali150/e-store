@@ -1,6 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const { DB_NAME } = require("../constants");
+let  DB_NAME;
 
 const connectToDb = async () => {
   try {
