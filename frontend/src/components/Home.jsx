@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import Cart from "./Cart";
 import axios from "axios";
+import Hero from "./Hero";
 
 const Home = () => {
-  
   const [products, setProducts] = useState([]);
   useEffect(() => {
     fetchProducts();
@@ -23,9 +22,11 @@ const Home = () => {
 
   return (
     <div>
-      <Cart />
       <div>
-        <p className="text-center text-3xl font-bold my-5" id="men">
+        <Hero />
+      </div>
+      <div id="collection">
+        <p className="text-center text-3xl font-bold my-5 text-sky-500" id="men">
           MEN
         </p>
         <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
@@ -38,7 +39,7 @@ const Home = () => {
         </div>
       </div>
       <div>
-        <p className="text-center text-3xl font-bold my-5" id="women">
+        <p className="text-center text-3xl font-bold my-5 text-customPink" id="women">
           WOMEN
         </p>
         <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
@@ -51,7 +52,7 @@ const Home = () => {
         </div>
       </div>
       <div>
-        <p className="text-center text-3xl font-bold my-5" id="kids">
+        <p className="text-center text-3xl font-bold my-5 text-customMint" id="kids">
           KIDS
         </p>
         <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">

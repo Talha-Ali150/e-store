@@ -10,7 +10,7 @@ const ProductCard = ({ item }) => {
   } = CartState();
   return (
     <div
-      className="productCardMainContainer w-[350px] bg-red-700 mx-3 my-5"
+      className="productCardMainContainer w-[350px] bg-red-700 mx-6 my-10"
       // onClick={() => navigate(`/detail-page/${item?._id}`, { state: { item } })}
       onClick={() => {
         dispatch({
