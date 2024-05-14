@@ -17,7 +17,7 @@ const Context = ({ children }) => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/products/get-products"
+        "https://e-store-pearl.vercel.app/api/products/get-products"
       );
       console.log(response.data.data);
       setProducts(response?.data?.data);
