@@ -26,7 +26,10 @@ const Home = () => {
         <Hero />
       </div>
       <div id="collection">
-        <p className="text-center text-3xl font-bold my-5 text-sky-500" id="men">
+        <p
+          className="text-center text-3xl font-bold my-5 text-sky-500"
+          id="men"
+        >
           MEN
         </p>
         <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
@@ -39,7 +42,10 @@ const Home = () => {
         </div>
       </div>
       <div>
-        <p className="text-center text-3xl font-bold my-5 text-customPink" id="women">
+        <p
+          className="text-center text-3xl font-bold my-5 text-customPink"
+          id="women"
+        >
           WOMEN
         </p>
         <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
@@ -52,7 +58,10 @@ const Home = () => {
         </div>
       </div>
       <div>
-        <p className="text-center text-3xl font-bold my-5 text-customMint" id="kids">
+        <p
+          className="text-center text-3xl font-bold my-5 text-customMint"
+          id="kids"
+        >
           KIDS
         </p>
         <div className="flex flex-col sm:flex sm:flex-row sm:flex-wrap sm:justify-center">
