@@ -7,6 +7,8 @@ const port = process.env.PORT;
 
 dotenv.config({ path: "./.env" });
 
+console.log('env chk', process.env.CORS_ORIGIN)
+
 const app = express();
 
 app.use(
