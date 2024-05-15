@@ -109,13 +109,21 @@ const LoginForm = () => {
         <button
           onClick={async (e) => {
             e.preventDefault();
-            await axios.post(
-              "https://e-store-taupe.vercel.app/api/users/logout",
-              null,
-              {
-                withCredentials: true,
-              }
-            );
+            try {
+              await axios.post(
+                "https://e-store-taupe.vercel.app/api/users/logout",
+                null,
+                {
+                  withCredentials: true,
+                }
+              );
+              console.log("this is reponse:", response.data);
+            } catch (error) {
+              console.error(
+                "this si error ",
+                error.response.data.error.message
+              );
+            }
           }}
           className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
         >
