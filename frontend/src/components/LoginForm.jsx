@@ -39,7 +39,7 @@ const LoginForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://e-store-taupe.vercel.app//api/users/login",
+        "https://e-store-taupe.vercel.app/api/users/login",
         {
           email,
           password,
@@ -111,7 +111,7 @@ const LoginForm = () => {
             e.preventDefault();
             try {
               await axios.post(
-                "https://e-store-taupe.vercel.app//api/users/logout",
+                "https://e-store-taupe.vercel.app/api/users/logout",
                 null,
                 {
                   withCredentials: true,
