@@ -3,18 +3,17 @@ import axios from "axios";
 import { CiMail } from "react-icons/ci";
 import { IoLockClosedOutline } from "react-icons/io5";
 import Loader from "./Loader";
-import { CartState } from "../context/Context";
 import { UserState } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const { dispatch } = CartState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const { login, logout } = UserState();
+  const { login } = UserState();
+  const navigate = useNavigate();
 
   const config = {
     headers: {
@@ -53,6 +52,7 @@ const LoginForm = () => {
       );
 
       login(response.data.data.user);
+      navigate("/");
 
       console.log("this is reponse:", response.data);
       setError("");
@@ -68,8 +68,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div class=" bg-gradient-to-r from-sky-500 to-purple-500 flex items-center justify-center h-screen w-screen">
-      <form className="bg-white w-1/3 flex flex-col items-center p-8 rounded-lg">
+    <div class=" bg-gradient-to-r from-sky-500 to-purple-500 flex items-center justify-center h-screen  w-[100%]">
+      <form className="bg-white w-1/3 flex flex-col items-center p-8 rounded-lg ">
         <span className=" flex flex-row items-center mb-4 w-full">
           <CiMail />
           <input
@@ -108,34 +108,11 @@ const LoginForm = () => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            console.log("go to signup");
+            navigate("/register");
           }}
           className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
         >
           Sign Up
-        </button>
-        <button
-          onClick={async (e) => {
-            e.preventDefault();
-            try {
-              await axios.post(
-                "https://e-store-taupe.vercel.app/api/users/logout",
-                null,
-                {
-                  withCredentials: true,
-                }
-              );
-              dispatch({
-                type: "CLEAR_CART",
-              });
-              logout();
-            } catch (error) {
-              console.error(error);
-            }
-          }}
-          className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
-        >
-          Log Out
         </button>
       </form>
     </div>
