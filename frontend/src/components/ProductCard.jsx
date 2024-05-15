@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { CartState } from "../context/Context";
+// import { CartState } from "../context/Context";
 
 const ProductCard = ({ item }) => {
   const navigate = useNavigate();
-  const {
-    // state: { products, cart },
-    dispatch,
-  } = CartState();
+  // const {
+  //   // state: { products, cart },
+  //   // dispatch,
+  // } = CartState();
   return (
     <div
       className="productCardMainContainer w-[350px] bg-red-700 mx-6 my-10"

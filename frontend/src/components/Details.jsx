@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { CartState } from "../context/Context";
+import { UserState } from "../context/UserContext";
 
 const Details = () => {
   const location = useLocation();
@@ -21,6 +22,10 @@ const Details = () => {
     dispatch,
   } = CartState();
   console.log(item);
+
+  const {
+    state: { user },
+  } = UserState();
 
   const itemExists = cart.filter((c) => c._id === _id);
 
@@ -52,7 +57,7 @@ const Details = () => {
           </p>
         </div>
         <div>
-          {itemExists.length>0 ? (
+          {itemExists.length > 0 ? (
             <button
               onClick={() => {
                 dispatch({
@@ -67,6 +72,10 @@ const Details = () => {
           ) : (
             <button
               onClick={() => {
+                if (!user) {
+                  alert("please login to continue");
+                  return;
+                }
                 dispatch({
                   type: "ADD_TO_CART",
                   payload: item,
@@ -79,7 +88,6 @@ const Details = () => {
           )}
         </div>
         <div></div>
-        <p>{_id}</p>
         {/* <p className="font-bold">{size}</p> */}
         {/* {productSecondaryImages?.map((item, index) => {
           return <img key={index} className="w-10 h-10" src={item} />;

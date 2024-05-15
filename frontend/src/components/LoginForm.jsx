@@ -3,13 +3,18 @@ import axios from "axios";
 import { CiMail } from "react-icons/ci";
 import { IoLockClosedOutline } from "react-icons/io5";
 import Loader from "./Loader";
+import { CartState } from "../context/Context";
+import { UserState } from "../context/UserContext";
 
 const LoginForm = () => {
+  const { dispatch } = CartState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { login, logout } = UserState();
 
   const config = {
     headers: {
@@ -46,6 +51,9 @@ const LoginForm = () => {
         },
         config
       );
+
+      login(response.data.data.user);
+
       console.log("this is reponse:", response.data);
       setError("");
       setEmail("");
@@ -117,6 +125,10 @@ const LoginForm = () => {
                   withCredentials: true,
                 }
               );
+              dispatch({
+                type: "CLEAR_CART",
+              });
+              logout();
             } catch (error) {
               console.error(error);
             }
