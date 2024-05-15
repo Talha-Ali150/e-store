@@ -51,7 +51,7 @@ const SignupForm = () => {
 
     try {
       const response = await axios.post(
-        "https://e-store-taupe.vercel.app/api/users/register",
+        "https://e-store-taupe.vercel.app//api/users/register",
         { username, email, password, profileImage },
         {
           headers: {

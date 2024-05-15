@@ -1,9 +1,9 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CartState } from "../context/Context";
 
 const ProductCard = ({ item }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     // state: { products, cart },
     dispatch,
@@ -11,13 +11,13 @@ const ProductCard = ({ item }) => {
   return (
     <div
       className="productCardMainContainer w-[350px] bg-red-700 mx-6 my-10"
-      // onClick={() => navigate(`/detail-page/${item?._id}`, { state: { item } })}
-      onClick={() => {
-        dispatch({
-          type: "ADD_TO_CART",
-          payload: item,
-        });
-      }}
+      onClick={() => navigate(`/detail-page/${item?._id}`, { state: { item } })}
+      // onClick={() => {
+      //   dispatch({
+      //     type: "ADD_TO_CART",
+      //     payload: item,
+      //   });
+      // }}
     >
       <div
         className={` productCardSection1    w-[350px] h-[175px] flex flex-col items-center ${

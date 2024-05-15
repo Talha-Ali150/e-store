@@ -13,15 +13,14 @@ import AddProductForm from "./components/AddProduct";
 import Home from "./components/Home";
 import Details from "./components/Details";
 import Context from "./context/Context";
-import Cart from "./components/Cart";
+import Layout from "./Layout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route>
+    <Route path="/" element={<Layout />}>
       <Route path="/" element={<Home />}></Route>
       <Route path="/login" element={<LoginForm />}></Route>
-      <Route path="/cart" element={<Cart />}></Route>
       <Route path="/detail-page/:id" element={<Details />}></Route>
       <Route path="/register" element={<SignupForm />}></Route>
       <Route path="/add-product" element={<AddProductForm />}></Route>

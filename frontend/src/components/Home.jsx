@@ -11,7 +11,7 @@ const Home = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "https://e-store-taupe.vercel.app/api/products/get-products"
+        "https://e-store-taupe.vercel.app//api/products/get-products"
       );
       console.log(response.data.data);
       setProducts(response?.data?.data);
