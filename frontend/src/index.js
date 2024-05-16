@@ -15,6 +15,7 @@ import Details from "./components/Details";
 import Context from "./context/Context";
 import UserContext from "./context/UserContext";
 import Layout from "./Layout";
+import Checkout from "./components/Checkout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/detail-page/:id" element={<Details />}></Route>
       <Route path="/register" element={<SignupForm />}></Route>
       <Route path="/add-product" element={<AddProductForm />}></Route>
+      <Route path="/checkout" element={<Checkout />}></Route>
     </Route>
   )
 );

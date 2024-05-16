@@ -6,8 +6,10 @@ import { ImBin } from "react-icons/im";
 import { IoIosAdd } from "react-icons/io";
 import { IoIosRemove } from "react-icons/io";
 import { IoIosTrash } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate()
   const {
     state: { cart },
     dispatch,
@@ -63,7 +65,10 @@ const Cart = () => {
               </p>
               {cart.map((item) => {
                 return (
-                  <div className="flex items-center justify-evenly my-6 mx-2" key={item._id}>
+                  <div
+                    className="flex items-center justify-evenly my-6 mx-2"
+                    key={item._id}
+                  >
                     <p className="mx-2">{item.title}</p>
                     <img
                       alt="product thumbnail"
@@ -116,7 +121,16 @@ const Cart = () => {
             <span>cart is empty</span>
           )}
           <p>subtotal: {subtotal}</p>
-          <p>total: {total}</p>
+          <p>total: {
+          total}</p>
+          <button
+            className="bg-sky-500 text-white p-2 rounded-md mt-3"
+            onClick={() => {
+              navigate('/checkout')
+            }}
+          >
+            Checkout
+          </button>
         </div>
       </Drawer>
     </>
