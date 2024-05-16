@@ -25,12 +25,12 @@ router.route("/add-product").post(
     //   maxCount: 3,
     // },
   ]),
-  verifyJWT,
+  verifyJWT(true),
   addProduct
 );
 
-router.route("/delete-product/:id").delete(verifyJWT, deleteProduct);
-router.route("/update-product/:id").put(verifyJWT, updateProduct);
+router.route("/delete-product/:id").delete(verifyJWT(true), deleteProduct);
+router.route("/update-product/:id").put(verifyJWT(true), updateProduct);
 
 //protected routes
 module.exports = router;

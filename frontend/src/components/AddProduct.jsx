@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { CiFileOn } from "react-icons/ci";
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 const AddProductForm = () => {
   const [title, setTitle] = useState("");
@@ -15,6 +16,7 @@ const AddProductForm = () => {
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -97,6 +99,7 @@ const AddProductForm = () => {
       setDiscountedPrice("");
       // setSize("");
       setCategory("");
+      navigate('/')
     } catch (error) {
       // console.log("Error adding product:", error);
       // setError("Error adding product. Please try again later.");

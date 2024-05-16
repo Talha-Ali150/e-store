@@ -3,7 +3,7 @@ const apiError = require("../utils/apiError.js");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.models");
 
-const verifyJWT = asyncHandler(async (req, res, next) => {
+const verifyJWT = (requireAdmin = false ) => asyncHandler(async (req, res, next) => {
   try {
     const token =
       req.cookies?.accessToken ||
@@ -37,7 +37,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
 
     req.user = user;
 
-    if (!user.isAdmin) {
+    if (requireAdmin  && !user.isAdmin) {
       // throw new apiError(403, "Access denied. You are not an admin.");
       return res.status(403).json({
         error: {
