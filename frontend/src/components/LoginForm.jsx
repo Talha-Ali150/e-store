@@ -69,7 +69,7 @@ const LoginForm = () => {
 
   return (
     <div class=" bg-gradient-to-r from-sky-500 to-purple-500 flex items-center justify-center h-screen  w-[100%]">
-      <form className="bg-white w-1/3 flex flex-col items-center p-8 rounded-lg ">
+      <form className="w-[90%] bg-white  flex flex-col items-center p-8 rounded-lg sm:w-1/3">
         <span className=" flex flex-row items-center mb-4 w-full">
           <CiMail />
           <input

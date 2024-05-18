@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { CartState } from "../context/Context";
 import { UserState } from "../context/UserContext";
+import { Alert, Space } from "antd";
 
 const Details = () => {
+  const [showAlert, setShowAlert] = useState(false);
   const location = useLocation();
   const { item } = location.state || {};
   const {
@@ -30,11 +32,11 @@ const Details = () => {
   const itemExists = cart.filter((c) => c._id === _id);
 
   return (
-    <div className="flex items-start w-[80vw] mx-auto">
+    <div className="flex flex-col items-start w-[80vw] mx-auto sm:flex sm:flex-row">
       <div>
         <img
           alt="product view"
-          className="w-[350px] h-[450px] m-5 "
+          className="w-[250px] h-[350px] sm:w-[350px] sm:h-[450px] m-5 "
           src={productMainImage}
         />
       </div>
@@ -70,21 +72,40 @@ const Details = () => {
               remove from cart
             </button>
           ) : (
-            <button
-              onClick={() => {
-                if (!user) {
-                  alert("please login to continue");
-                  return;
-                }
-                dispatch({
-                  type: "ADD_TO_CART",
-                  payload: item,
-                });
-              }}
-              className="text-white bg-gradient-to-r from-sky-500 to-purple-500 p-2 rounded-md inline-block"
-            >
-              add to cart
-            </button>
+            <div>
+              {showAlert && (
+                <Space
+                  direction="vertical"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <Alert
+                    message="Warning"
+                    description="You need to log in to add items to the cart."
+                    type="warning"
+                    showIcon
+                    closable
+                    onClose={() => setShowAlert(false)}
+                  />
+                </Space>
+              )}
+              <button
+                onClick={() => {
+                  if (!user) {
+                    setShowAlert(true);
+                    return;
+                  }
+                  dispatch({
+                    type: "ADD_TO_CART",
+                    payload: item,
+                  });
+                }}
+                className="text-white bg-gradient-to-r from-sky-500 to-purple-500 p-2 rounded-md inline-block mt-3"
+              >
+                add to cart
+              </button>
+            </div>
           )}
         </div>
         <div></div>
