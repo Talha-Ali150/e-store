@@ -20,7 +20,7 @@ const CustomDropdown = () => {
             e.preventDefault();
             try {
               await axios.post(
-                "https://e-store-taupe.vercel.app/api/users/logout",
+                "http://localhost:5000/api/users/logout",
                 null,
                 {
                   withCredentials: true,

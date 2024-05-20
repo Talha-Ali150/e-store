@@ -13,12 +13,12 @@ const verifyJWT = require("../middlewares/auth.middleware.js");
 
 // router.route("/checking").post(registerUser);
 router.route("/register").post(
-  upload.fields([
-    {
-      name: "profileImage",
-      maxCount: 1,
-    },
-  ]),
+  // upload.fields([
+  //   {
+  //     name: "profileImage",
+  //     maxCount: 1,
+  //   },
+  // ]),
   registerUser
 );
 

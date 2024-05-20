@@ -24,7 +24,7 @@ const Context = ({ children }) => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "https://e-store-taupe.vercel.app/api/products/get-products"
+          "http://localhost:5000/api/products/get-products"
         );
         dispatch({ type: "SET_PRODUCTS", payload: response.data.data });
       } catch (error) {

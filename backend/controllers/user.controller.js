@@ -28,9 +28,9 @@ const generateAccessAndRefreshTokens = async (userID) => {
   }
 };
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password, isAdmin } = req.body;
+  const { username, email, password, isAdmin,profileImage } = req.body;
 
-  if ([username, email, password].some((field) => field.trim() === "")) {
+  if ([username, email, password,profileImage].some((field) => field.trim() === "")) {
     // throw new apiError(400, "All fields are required.");
     return res.status(400).json({
       error: {
@@ -38,31 +38,32 @@ const registerUser = asyncHandler(async (req, res) => {
       },
     });
   }
-  const profileImagePath = req.files?.profileImage[0]?.path;
-  if (!profileImagePath) {
-    // throw new apiError(400, "profile image path not provided");
-    return res.status(400).json({
-      error: {
-        message: "Profile image path not provided",
-      },
-    });
-  }
-  const profileImage = await uploadOnCloudinary(profileImagePath);
-  if (!profileImage) {
-    // throw new apiError(400, "profile image is required");
-    return res.status(400).json({
-      error: {
-        message: "Profile image is required",
-      },
-    });
-  }
+  // const profileImagePath = req.files?.profileImage[0]?.path;
+  // if (!profileImagePath) {
+  //   // throw new apiError(400, "profile image path not provided");
+  //   return res.status(400).json({
+  //     error: {
+  //       message: "Profile image path not provided",
+  //     },
+  //   });
+  // }
+  // const profileImage = await uploadOnCloudinary(profileImagePath);
+  // if (!profileImage) {
+  //   // throw new apiError(400, "profile image is required");
+  //   return res.status(400).json({
+  //     error: {
+  //       message: "Profile image is required",
+  //     },
+  //   });
+  // }
 
   const user = await User.create({
     username,
     email,
     password,
     isAdmin: isAdmin || false,
-    profileImage: profileImage.url,
+    profileImage
+    // profileImage: profileImage.url,
   });
 
   const createdUser = await User.findById(user._id).select("-password");
@@ -81,7 +82,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const {  email, password } = req.body;
 
   if (!email) {
     // throw new apiError(400, "email is required");

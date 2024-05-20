@@ -15,16 +15,16 @@ router.route("/get-products").get(getProducts);
 
 //this is a protected route
 router.route("/add-product").post(
-  upload.fields([
-    {
-      name: "productMainImage",
-      maxCount: 1,
-    },
+  // upload.fields([
+  //   {
+  //     name: "productMainImage",
+  //     maxCount: 1,
+  //   },
     // {
     //   name: "productSecondaryImages",
     //   maxCount: 3,
     // },
-  ]),
+  // ]),
   verifyJWT(true),
   addProduct
 );

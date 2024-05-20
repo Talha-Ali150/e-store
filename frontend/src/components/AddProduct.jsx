@@ -82,7 +82,7 @@ const AddProductForm = () => {
       formData.append("category", category);
 
       const response = await axios.post(
-        "https://e-store-taupe.vercel.app/api/products/add-product",
+        "http://localhost:5000/api/products/add-product",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
