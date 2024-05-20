@@ -13,10 +13,11 @@ const addProduct = asyncHandler(async (req, res) => {
     description,
     originalPrice,
     discountedPrice,
+    productMainImage,
     // size,
     category,
   } = req.body;
-
+  console.log('this is body request body',req.body);
   if (
     [
       title,
@@ -24,6 +25,7 @@ const addProduct = asyncHandler(async (req, res) => {
       originalPrice,
       discountedPrice,
       // size,
+      productMainImage,
       category,
     ].some((field) => field.trim() === "")
   ) {
@@ -35,19 +37,19 @@ const addProduct = asyncHandler(async (req, res) => {
     });
   }
 
-  const productMainImagePath = req.files?.productMainImage[0]?.path;
+  // const productMainImagePath = req.files?.productMainImage[0]?.path;
   // const productSecondaryImagePaths = req.files?.productSecondaryImages?.map(
   //   (file) => file.path
   // );
 
-  if (!productMainImagePath) {
-    // throw new apiError(400, "product image path not provided");
-    return res.status(400).json({
-      error: {
-        message: "Product image path not provided",
-      },
-    });
-  }
+  // if (!productMainImagePath) {
+  // throw new apiError(400, "product image path not provided");
+  // return res.status(400).json({
+  //     error: {
+  //       message: "Product image path not provided",
+  //     },
+  //   });
+  // }
   // if (!productSecondaryImagePaths) {
   //   // throw new apiError(400, "product secondary images path not provided");
   //   return res.status(400).json({
@@ -57,7 +59,7 @@ const addProduct = asyncHandler(async (req, res) => {
   //   });
   // }
 
-  const productMainImage = await uploadOnCloudinary(productMainImagePath);
+  // const productMainImage = await uploadOnCloudinary(productMainImagePath);
   // const productSecondaryImages = await productSecondaryImagePaths(
 
   // const productSecondaryImages = [];
@@ -68,18 +70,24 @@ const addProduct = asyncHandler(async (req, res) => {
   //   }
   // }
 
-  if (!productMainImage) {
-    // throw new apiError(400, "product image is required");
-    return res.status(400).json({
-      error: {
-        message: "Product image is required",
-      },
-    });
-  }
+  // if (!productMainImage) {
+  //   // throw new apiError(400, "product image is required");
+  //   return res.status(400).json({
+  //     error: {
+  //       message: "Product image is required",
+  //     },
+  //   });
+  // }
 
   const newProduct = await Product.create({
-    ...req.body,
-    productMainImage: productMainImage.url,
+    title,
+    description,
+    originalPrice,
+    discountedPrice,
+    // size,
+    productMainImage,
+    category,
+    // productMainImage: productMainImage.url,
     // productSecondaryImages: productSecondaryImages,
   });
 

@@ -16,7 +16,7 @@ const AddProductForm = () => {
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -61,6 +61,27 @@ const AddProductForm = () => {
     return Object.keys(errors).length === 0;
   };
 
+  const uploadImageToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "mern-notes");
+    data.append("cloud_name", "mern-notes");
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/mern-notes/image/upload",
+        data
+      );
+      setLoading(false);
+      return response.data.url;
+    } catch (e) {
+      console.log("Cloudinary error:", e);
+      setLoading(false);
+      return null;
+    }
+  };
+
   const submitAddProductForm = async (e) => {
     e.preventDefault();
 
@@ -69,23 +90,40 @@ const AddProductForm = () => {
     }
     setLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("productMainImage", productMainImage);
-      // productSecondaryImages.forEach((image) =>
-      //   formData.append("productSecondaryImages", image)
-      // );
-      formData.append("originalPrice", originalPrice);
-      formData.append("discountedPrice", discountedPrice);
-      // formData.append("size", size);
-      formData.append("category", category);
+      const productMainImageUrl = await uploadImageToCloudinary(
+        productMainImage
+      );
+      if (!productMainImageUrl) {
+        setError("Failed to upload product image");
+        setLoading(false);
+        return;
+      }
+
+      // const formData = new FormData();
+      // formData.append("title", title);
+      // formData.append("description", description);
+      // formData.append("productMainImage", productMainImageUrl);
+      // // productSecondaryImages.forEach((image) =>
+      // //   formData.append("productSecondaryImages", image)
+      // // );
+      // formData.append("originalPrice", originalPrice);
+      // formData.append("discountedPrice", discountedPrice);
+      // // formData.append("size", size);
+      // formData.append("category", category);
 
       const response = await axios.post(
         "https://e-store-taupe.vercel.app/api/products/add-product",
-        formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          title,
+          description,
+          originalPrice,
+          discountedPrice,
+          // size,
+          productMainImage: productMainImageUrl,
+          category,
+        },
+        {
+          // headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         }
       );
@@ -99,7 +137,7 @@ const AddProductForm = () => {
       setDiscountedPrice("");
       // setSize("");
       setCategory("");
-      navigate('/')
+      navigate("/");
     } catch (error) {
       // console.log("Error adding product:", error);
       // setError("Error adding product. Please try again later.");
@@ -111,8 +149,8 @@ const AddProductForm = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-sky-500 to-purple-500 flex items-center justify-center h-screen w-screen">
-      <form className="bg-white w-1/3 flex flex-col items-center p-8 rounded-lg">
+    <div class=" bg-gradient-to-r from-sky-500 to-purple-500 flex items-center justify-center h-screen  w-[100%]">
+      <form className="w-[90%] bg-white  flex flex-col items-center p-8 rounded-lg sm:w-1/3">
         <span className="flex flex-row items-center mb-4 w-full">
           <input
             value={title}
