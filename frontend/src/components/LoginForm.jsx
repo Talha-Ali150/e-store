@@ -43,7 +43,7 @@ const LoginForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/login",
+        "https://e-store-taupe.vercel.app/api/users/login",
         {
           email,
           password,
