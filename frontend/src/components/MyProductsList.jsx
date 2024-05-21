@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Avatar, Button, List } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MyProductsList = ({ data }) => {
+  const navigate = useNavigate()
+
   const deleteProduct = async (item) => {
     console.log(item);
 
@@ -19,6 +22,7 @@ const MyProductsList = ({ data }) => {
       console.log(error);
     }
   };
+
 
   const [position, setPosition] = useState("bottom");
   const [align, setAlign] = useState("center");
@@ -40,7 +44,7 @@ const MyProductsList = ({ data }) => {
               >
                 delete
               </Button>,
-              <Button>edit</Button>,
+              <Button onClick={()=>{navigate(`/edit-product/${item._id}`)}}>edit</Button>,
             ]}
           >
             <List.Item.Meta

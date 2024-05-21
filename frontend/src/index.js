@@ -17,6 +17,7 @@ import UserContext from "./context/UserContext";
 import Layout from "./Layout";
 import Checkout from "./components/Checkout";
 import MyProducts from "./components/MyProducts";
+import EditProduct from "./components/EditProduct";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
       <Route path="/add-product" element={<AddProductForm />}></Route>
       <Route path="/checkout" element={<Checkout />}></Route>
       <Route path="/my-products" element={<MyProducts />}></Route>
+      <Route path="/edit-product/:id" element={<EditProduct />}></Route>
     </Route>
   )
 );

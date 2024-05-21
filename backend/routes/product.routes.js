@@ -7,12 +7,14 @@ const {
   getProducts,
   updateProduct,
   getMyProducts,
+  getSingleProduct,
 } = require("../controllers/product.controller.js");
 
 const upload = require("../middlewares/multer.middleware.js");
 const verifyJWT = require("../middlewares/auth.middleware.js");
 
 router.route("/get-products").get(getProducts);
+router.route("/get-single-product").get(getSingleProduct);
 
 //this is a protected route
 router.route("/add-product").post(

@@ -17,7 +17,9 @@ const addProduct = asyncHandler(async (req, res) => {
     // size,
     category,
   } = req.body;
+  const owner = req.user._id;
   console.log("this is body request body", req.body);
+  console.log("owner id", owner);
   if (
     [
       title,
@@ -87,6 +89,7 @@ const addProduct = asyncHandler(async (req, res) => {
     // size,
     productMainImage,
     category,
+    owner,
     // productMainImage: productMainImage.url,
     // productSecondaryImages: productSecondaryImages,
   });
@@ -152,6 +155,21 @@ const getProducts = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, products, "All products fetched successfully"));
 });
 
+const getSingleProduct = asyncHandler(async (req, res) => {
+  const {id} = req.query
+  const product = await Product.find({_id:id});
+  if (!product) {
+    return res.status(404).json({
+      error: {
+        message: "No product found",
+      },
+    });
+  }
+  return res
+    .status(200)
+    .json(new apiResponse(200, product, "product fetched successfully"));
+});
+
 const getMyProducts = asyncHandler(async (req, res) => {
   const ownerId = req.user._id;
   console.log("this si owner id", ownerId);
@@ -193,63 +211,135 @@ const getMyProducts = asyncHandler(async (req, res) => {
 //     .json(new apiResponse(200, products, "All products fetched successfully"));
 // });
 
+// const updateProduct = asyncHandler(async (req, res) => {
+//   const { id } = req.params;
+
+//   let productToUpdate = await Product.findById(id);
+
+//   if (!productToUpdate) {
+//     // throw new apiError(404, `No product with the id of ${id}`);
+//     return res.status(400).json({
+//       error: {
+//         message: "No product found",
+//       },
+//     });
+//   }
+
+//   const {
+//     title,
+//     description,
+//     originalPrice,
+//     discountedPrice,
+//     //  size
+//   } = req.body;
+
+//   const fieldsToUpdate = {
+//     title,
+//     description,
+//     originalPrice,
+//     discountedPrice,
+//     // size,
+//   };
+
+//   Object.keys(fieldsToUpdate).forEach((field) => {
+//     if (fieldsToUpdate[field]) {
+//       productToUpdate[field] = fieldsToUpdate[field];
+//     }
+//   });
+
+//   const productImagePath = req.files?.productImage[0]?.path;
+//   if (productImagePath) {
+//     const productImage = await uploadOnCloudinary(productImagePath);
+//     if (!productImage) {
+//       // throw new apiError(400, "Product image is required");
+//       return res.status(400).json({
+//         error: {
+//           message: "Product image is required",
+//         },
+//       });
+//     }
+//     productToUpdate.productImage = productImage.url;
+//   }
+
+//   productToUpdate = await productToUpdate.save();
+
+//   return res
+//     .status(200)
+//     .json(
+//       new apiResponse(200, productToUpdate, "Product updated successfully")
+//     );
+// });
+
 const updateProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
-  let productToUpdate = await Product.findById(id);
-
-  if (!productToUpdate) {
-    // throw new apiError(404, `No product with the id of ${id}`);
-    return res.status(400).json({
-      error: {
-        message: "No product found",
-      },
-    });
-  }
-
+  const ownerId = req.user._id.toString();
   const {
     title,
     description,
     originalPrice,
     discountedPrice,
-    //  size
+    productMainImage,
+    category,
   } = req.body;
 
-  const fieldsToUpdate = {
+  console.log("Product ID to update:", id);
+  console.log("Owner ID:", ownerId);
+  console.log("Request body:", req.body);
+
+  const product = await Product.findById(id);
+
+  if (!product) {
+    return res.status(404).json({
+      error: {
+        message: "Product not found",
+      },
+    });
+  }
+
+  if (product.owner.toString() !== ownerId) {
+    return res.status(401).json({
+      error: {
+        message: "Only the owner can update this product",
+      },
+    });
+  }
+
+  if (
+    [
+      title,
+      description,
+      originalPrice,
+      discountedPrice,
+      productMainImage,
+      category,
+    ].some((field) => field && field.trim() === "")
+  ) {
+    return res.status(400).json({
+      error: {
+        message: "All fields must be non-empty",
+      },
+    });
+  }
+
+  const updatedFields = {
     title,
     description,
     originalPrice,
     discountedPrice,
-    // size,
+    productMainImage,
+    category,
   };
-
-  Object.keys(fieldsToUpdate).forEach((field) => {
-    if (fieldsToUpdate[field]) {
-      productToUpdate[field] = fieldsToUpdate[field];
+  Object.keys(updatedFields).forEach((key) => {
+    if (updatedFields[key]) {
+      product[key] = updatedFields[key];
     }
   });
 
-  const productImagePath = req.files?.productImage[0]?.path;
-  if (productImagePath) {
-    const productImage = await uploadOnCloudinary(productImagePath);
-    if (!productImage) {
-      // throw new apiError(400, "Product image is required");
-      return res.status(400).json({
-        error: {
-          message: "Product image is required",
-        },
-      });
-    }
-    productToUpdate.productImage = productImage.url;
-  }
-
-  productToUpdate = await productToUpdate.save();
+  await product.save();
 
   return res
     .status(200)
-    .json(
-      new apiResponse(200, productToUpdate, "Product updated successfully")
-    );
+    .json(new apiResponse(200, product, "Product updated successfully"));
 });
 
 module.exports = {
@@ -258,4 +348,5 @@ module.exports = {
   getProducts,
   updateProduct,
   getMyProducts,
+  getSingleProduct
 };
