@@ -9,7 +9,7 @@ import { IoIosTrash } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     state: { cart },
     dispatch,
@@ -121,12 +121,12 @@ const Cart = () => {
             <span>cart is empty</span>
           )}
           <p>subtotal: {subtotal}</p>
-          <p>total: {
-          total}</p>
+          <p>total: {total}</p>
           <button
             className="bg-sky-500 text-white p-2 rounded-md mt-3"
             onClick={() => {
-              navigate('/checkout')
+              onClose()              
+              navigate("/checkout");
             }}
           >
             Checkout

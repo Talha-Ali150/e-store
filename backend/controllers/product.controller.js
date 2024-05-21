@@ -17,7 +17,7 @@ const addProduct = asyncHandler(async (req, res) => {
     // size,
     category,
   } = req.body;
-  console.log('this is body request body',req.body);
+  console.log("this is body request body", req.body);
   if (
     [
       title,
@@ -107,9 +107,21 @@ const addProduct = asyncHandler(async (req, res) => {
 });
 
 const deleteProduct = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.user._id.toString();
+  const { del_id, owner_id } = req.query;
 
-  const deletedProduct = await Product.findByIdAndDelete(id);
+  console.log("user id", id);
+  console.log("del id", del_id);
+  console.log("owner id", owner_id);
+
+  if (id !== owner_id) {
+    return res.status(401).json({
+      error: {
+        message: "Only owner  can delete product",
+      },
+    });
+  }
+  const deletedProduct = await Product.findByIdAndDelete(del_id);
 
   if (!deletedProduct) {
     // throw new apiError(404, `No product with the id of ${id}`);
@@ -139,6 +151,47 @@ const getProducts = asyncHandler(async (req, res) => {
     .status(200)
     .json(new apiResponse(200, products, "All products fetched successfully"));
 });
+
+const getMyProducts = asyncHandler(async (req, res) => {
+  const ownerId = req.user._id;
+  console.log("this si owner id", ownerId);
+
+  if (!ownerId) {
+    return res.status(400).json({
+      error: {
+        message: "Owner ID is missing",
+      },
+    });
+  }
+
+  const products = await Product.find({ owner: ownerId });
+
+  if (!products || products.length === 0) {
+    return res.status(404).json({
+      error: {
+        message: "No products found",
+      },
+    });
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, products, "All products fetched successfully"));
+});
+
+//   const products = await Product.find({});
+//   if (!products) {
+//     // return new apiError(404, "no products found");
+//     return res.status(404).json({
+//       error: {
+//         message: "No products found",
+//       },
+//     });
+//   }
+//   return res
+//     .status(200)
+//     .json(new apiResponse(200, products, "All products fetched successfully"));
+// });
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -204,4 +257,5 @@ module.exports = {
   deleteProduct,
   getProducts,
   updateProduct,
+  getMyProducts,
 };

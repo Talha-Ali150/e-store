@@ -3,8 +3,10 @@ import {  Dropdown, Space } from "antd";
 import { UserState } from "../context/UserContext";
 import axios from "axios";
 import { CartState } from "../context/Context";
+import { useNavigate } from "react-router-dom";
 
 const CustomDropdown = () => {
+  const navigate = useNavigate()
   const {
     state: { user },
     logout,
@@ -40,6 +42,13 @@ const CustomDropdown = () => {
         </button>
       ),
     },
+    {
+      key:"2",
+      label:(
+        <button className=" bg-gradient-to-r from-sky-500 to-purple-500 text-white px-4 py-2 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600"
+        onClick={()=>{navigate('/my-products')}}>Owned Products</button>
+      )
+    }
   ];
 
   return (

@@ -149,6 +149,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
+  console.log('this is user request',req.user)
   await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -187,7 +188,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const decodedToken = jwt.verify(
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET
-    );
+    );lo
 
     const user = await User.findById(decodedToken?._id);
 
