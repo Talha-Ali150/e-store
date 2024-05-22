@@ -33,7 +33,7 @@ router.route("/add-product").post(
 );
 
 router.route("/delete-product").delete(verifyJWT(), deleteProduct);
-router.route("/update-product/:id").put(verifyJWT(true), updateProduct);
+router.route("/update-product").put(verifyJWT(), updateProduct);
 router.route("/get-myproducts").get(verifyJWT(), getMyProducts);
 
 //protected routes
