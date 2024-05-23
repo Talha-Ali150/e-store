@@ -271,7 +271,7 @@ const getMyProducts = asyncHandler(async (req, res) => {
 // });
 
 const updateProduct = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
   const ownerId = req.user._id.toString();
   const {
     title,

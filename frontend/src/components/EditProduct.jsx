@@ -17,12 +17,14 @@ const EditProduct = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
+  console.log('id from use params', id)
 
   const fetchSingleProduct = async () => {
+    console.log('id inside fetch', id)
     try {
       const response = await axios.get(
         "https://e-store-taupe.vercel.app/api/products/get-single-product",
-        { params: { id }, withCredentials: true }
+        { params: { id:id }, withCredentials: true }
       );
       const { data } = response.data;
       setProduct(data[0]);
